@@ -5,6 +5,7 @@ function Login({
   user: { username, mobileNumber, verificationCode, verificationSent },
   setUser,
   sendSmsCode,
+  sendVerificationCode
 }) {
   function populateFields(event, data) {
     setUser((draft) => {
@@ -48,8 +49,8 @@ function Login({
                 name="verificationCode"
               />
             )}
-            <Button color="teal" fluid size="large" onClick={sendSmsCode}>
-              Login/Signup
+            <Button color="teal" fluid size="large" onClick={!verificationSent ? sendSmsCode : sendVerificationCode}>
+              {!verificationSent ? 'Login/Signup' : 'Enter your Code'}
             </Button>
           </Segment>
         </Form>

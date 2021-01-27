@@ -22,10 +22,11 @@ app.post('/login', async (req,res) => {
     res.send(data)
 })
 
-app.get('/verify', async (req,res) => {
+app.post('/verify', async (req,res) => {
     console.log('Verifying code')
-    const data = await twilio.verifyCodeAsync('+91 93539 61459', req.query.code)
-    return data
+    const {to, code}  = req.body
+    const data = await twilio.verifyCodeAsync(to,code)
+    res.send(data)
 })
 
 
