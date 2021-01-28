@@ -8,7 +8,9 @@ class Twilio {
   accountSid = process.env.ACCOUNT_SID;
   verify = process.env.VERIFY;
   client;
+
   constructor() {
+    // console.log(this.phoneNumber, this.phoneNumberSid, this.tokenSid, this.accountSid, this.verify, this.tokenSecret)
     this.client = twilio(this.tokenSid, this.tokenSecret, {
       accountSid: this.accountSid,
     });

@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Login from "./components/Login";
 import { useImmer } from "use-immer";
 import axios from "./utils/Axios";
+import socket from "./utils/SocketIo";
 
 function App() {
   const [user, setUser] = useImmer({
@@ -10,6 +11,13 @@ function App() {
     verificationCode: "",
     verificationSent: false,
   });
+
+  useEffect(() => {
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+    return () => {};
+  }, []);
 
   async function sendSmsCode() {
     await axios.post("/login", {
@@ -29,12 +37,17 @@ function App() {
       to: user.mobileNumber,
       code: user.verificationCode,
     });
-    console.log('verification response', response.data)
+    console.log("verification response", response.data);
   }
 
   return (
     <div>
-      <Login user={user} setUser={setUser} sendSmsCode={sendSmsCode} sendVerificationCode={sendVerificationCode} />
+      <Login
+        user={user}
+        setUser={setUser}
+        sendSmsCode={sendSmsCode}
+        sendVerificationCode={sendVerificationCode}
+      />
     </div>
   );
 }
