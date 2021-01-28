@@ -4,6 +4,7 @@ const twilio = require("./Twilio");
 const bodyParser = require("body-parser");
 const http = require("http");
 const socketIo = require("socket.io");
+const jwt = require("./utils/Jwt");
 const cors = require("cors");
 
 const app = express();
@@ -35,9 +36,13 @@ app.post("/login", async (req, res) => {
 
 app.post("/verify", async (req, res) => {
   console.log("Verifying code");
-  const { to, code } = req.body;
+  const { to, code , username} = req.body;
   const data = await twilio.verifyCodeAsync(to, code);
-  res.send(data);
+  if (data.status === "approved") {
+    const token = jwt.createJwt(username, process.env.JWT_SECRET);
+    return res.send({ token });
+  }
+  res.status(401).send({ token });
 });
 
 server.listen(PORT, () => {

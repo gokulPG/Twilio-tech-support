@@ -35,7 +35,7 @@ class Twilio {
         code,
       });
     console.log(data);
-    return;
+    return data;
   }
 }
 
