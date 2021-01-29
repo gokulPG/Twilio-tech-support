@@ -5,7 +5,7 @@ function createJwt(username, secretKey) {
   return token;
 }
 
-function verifyToken(secretKey) {
+function verifyToken(token, secretKey) {
   const data = jwt.verify(token, secretKey);
   return data;
 }

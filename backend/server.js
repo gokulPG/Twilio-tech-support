@@ -28,6 +28,17 @@ app.get("/test", (req, res) => {
   res.send("Welcome to twilio");
 });
 
+app.post('/check-token', (req,res) => {
+  const {token} = req.body
+  let isValid = false
+  try {
+    isValid = jwt.verifyToken(token, process.env.JWT_SECRET)
+  } catch (error) {
+    console.log(error)
+  }
+  res.send({isValid})
+})
+
 app.post("/login", async (req, res) => {
   console.log("logging in");
   const { to, username, channel } = req.body;
