@@ -49,7 +49,7 @@ app.post("/verify", async (req, res) => {
 app.post("/call-new", (req, res) => {
   console.log("receive a new call");
   io.emit("call-new", { data: req.body });
-  const response = twilio.voiceResponse("Thank you for your call Bomma Bomma");
+  const response = twilio.voiceResponse("Thank you for your call! We will put you on hold until the next attendant is free");
   res.type("text/xml");
   res.send(response.toString());
 });
