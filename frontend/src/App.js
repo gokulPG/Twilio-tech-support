@@ -21,15 +21,23 @@ function App() {
   const [storedToken, setStoredToken, isValidToken] = useTokenFromLocalStorage(null);
 
   useEffect(() => {
-    socket.on("disconnect", () => {
+    if(isValidToken) {
+      return socket.addToken(storedToken)
+    }
+    socket.removeToken()
+  }, [isValidToken, storedToken])
+
+
+  useEffect(() => {
+    socket.client.on("disconnect", () => {
       console.log("Socket disconnected");
     });
-    socket.on("call-new", ({ data: { CallSid, CallStatus } }) => {
+    socket.client.on("call-new", ({ data: { CallSid, CallStatus } }) => {
       setCalls((draft) => {
         draft.calls.push({ CallSid, CallStatus });
       });
     });
-    socket.on("enqueue", ({ data: { CallSid } }) => {
+    socket.client.on("enqueue", ({ data: { CallSid } }) => {
       setCalls((draft) => {
         const index = draft.calls.findIndex(
           ({ CallSid }) => CallSid === CallSid
