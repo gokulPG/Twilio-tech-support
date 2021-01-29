@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config();
 const twilio = require("./Twilio");
 const bodyParser = require("body-parser");
 const http = require("http");
@@ -21,7 +22,6 @@ io.on("connection", (socket) => {
 const PORT = 3001;
 app.use(bodyParser.json());
 app.use(cors());
-dotenv.config();
 
 app.get("/test", (req, res) => {
   res.send("Welcome to twilio");
