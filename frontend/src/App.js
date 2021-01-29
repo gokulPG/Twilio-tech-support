@@ -29,6 +29,9 @@ function App() {
 
 
   useEffect(() => {
+    socket.client.on('connect', () => {
+      console.log('socket connection is established from FE')
+    })
     socket.client.on("disconnect", () => {
       console.log("Socket disconnected");
     });
@@ -46,7 +49,7 @@ function App() {
       });
     });
     return () => {};
-  }, []);
+  }, [socket.client]);
 
   async function sendSmsCode() {
     await axios.post("/login", {

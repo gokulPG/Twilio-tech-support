@@ -10,7 +10,7 @@ function CallProgress({ call }) {
           title="Ringing"
           description={call.CallSid}
           active={call.CallStatus === 'ringing'}
-          completed={call.CallStatus != "ringing"}
+          completed={call.CallStatus !== "ringing"}
         />
         <Step
           icon="cogs"

@@ -12,6 +12,19 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+io.use((socket, next) => {
+  console.log('socket middleware')
+  if(socket.handshake.query && socket.handshake.query.token) {
+    const {token} = socket.handshake.query
+    try {
+      const result = jwt.verifyToken(token, process.env.JWT_SECRET)
+      if(result.username) return next()
+    } catch(error) {
+      console.log(error)
+    }
+  }
+})
+
 io.on("connection", (socket) => {
   console.log("Socket Connected", socket.id);
   socket.on("disconnect", () => {
