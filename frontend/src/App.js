@@ -8,8 +8,8 @@ import CallCenter from "./components/CallCenter";
 
 function App() {
   const [calls, setCalls] = useImmer({
-    calls: []
-  })
+    calls: [],
+  });
 
   const [user, setUser] = useImmer({
     username: "",
@@ -24,11 +24,19 @@ function App() {
     socket.on("disconnect", () => {
       console.log("Socket disconnected");
     });
-    socket.on('call-new', (data) => {
+    socket.on("call-new", ({ data: { CallSid, CallStatus } }) => {
       setCalls((draft) => {
-        draft.calls.push(data)
-      })
-    })
+        draft.calls.push({ CallSid, CallStatus });
+      });
+    });
+    socket.on("enqueue", ({ data: { CallSid } }) => {
+      setCalls((draft) => {
+        const index = draft.calls.findIndex(
+          ({ CallSid }) => CallSid === CallSid
+        );
+        draft.calls[index].CallStatus = "enqueue";
+      });
+    });
     return () => {};
   }, []);
 

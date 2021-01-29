@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
 
 const PORT = 3001;
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.get("/test", (req, res) => {
@@ -49,9 +49,7 @@ app.post("/verify", async (req, res) => {
 app.post("/call-new", (req, res) => {
   console.log("receive a new call");
   io.emit("call-new", { data: req.body });
-  const response = twilio.voiceResponse(
-    "Thank you for your call"
-  );
+  const response = twilio.voiceResponse("Thank you for your call Bomma Bomma");
   res.type("text/xml");
   res.send(response.toString());
 });
@@ -61,11 +59,13 @@ app.post("/call-status-changed", (req, res) => {
   res.send("ok");
 });
 
-app.post('/enqueue', (req, res) => {
-  const response = twilio.enqueueCall('Customer Service')
-  res.type('text/xml');
-  res.send(response.toString())
-})
+app.post("/enqueue", (req, res) => {
+  const response = twilio.enqueueCall("Customer Service");
+  console.log('enqueuing call')
+  io.emit("enqueue", { data: req.body });
+  res.type("text/xml");
+  res.send(response.toString());
+});
 
 server.listen(PORT, () => {
   console.log(`Listening to PORT: ${PORT}`);

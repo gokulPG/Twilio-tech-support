@@ -44,18 +44,17 @@ class Twilio {
     twiml.say(
       {
         voice: "Polly.Aditi",
-        loop: 2,
       },
       message
     );
-    twiml.redirect('https://goku-callcenter.loca.lt/enqueue');
+    twiml.redirect("https://goku-callcenter.loca.lt/enqueue");
     return twiml;
   }
 
   enqueueCall(queueName) {
     const twim = new VoiceResponse();
-    twim.enqueue(queueName)
-    return twim
+    twim.enqueue(queueName);
+    return twim;
   }
 }
 

@@ -8,7 +8,7 @@ function CallProgress({call}) {
         <Step
           icon="phone"
           title="Ringing"
-          description={call.data.To}
+          description={call.callSid}
           completed
         />
         <Step
