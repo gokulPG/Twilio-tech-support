@@ -1,14 +1,14 @@
 import React from "react";
 import { Container, Step } from "semantic-ui-react";
 
-function CallProgress() {
+function CallProgress({call}) {
   return (
     <Container>
       <Step.Group fluid>
         <Step
           icon="phone"
           title="Ringing"
-          description="+1 555-5555"
+          description={call.data.To}
           completed
         />
         <Step

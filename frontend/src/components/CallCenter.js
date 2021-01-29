@@ -1,14 +1,16 @@
-import React from 'react'
-import CallProgress from './CallProgress'
-import NavBar from './NavBar'
+import React from "react";
+import CallProgress from "./CallProgress";
+import NavBar from "./NavBar";
 
-function CallCenter() {
-    return (
-        <div>
-            <NavBar />
-            <CallProgress />
-        </div>
-    )
+function CallCenter({calls}) {
+  return (
+    <div>
+      <NavBar />
+      {calls.calls.map((call) => (
+        <CallProgress call={call} />
+      ))}
+    </div>
+  );
 }
 
-export default CallCenter
+export default CallCenter;
