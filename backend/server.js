@@ -45,6 +45,18 @@ app.post("/verify", async (req, res) => {
   res.status(401).send({ token });
 });
 
+app.post('/call-new', (req,res) => {
+  console.log('receive a new call')
+  const response = twilio.voiceResponse('Attack on titan is the best suspenful and unique series i have ever watched this year')
+  res.type('text/xml');
+  res.send(response.toString())
+})
+
+app.post('/call-status-changed', (req, res) => {
+  console.log('Call status changed');
+  res.send('ok')
+})
+
 server.listen(PORT, () => {
   console.log(`Listening to PORT: ${PORT}`);
 });

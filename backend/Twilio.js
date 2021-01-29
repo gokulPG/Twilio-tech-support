@@ -1,4 +1,5 @@
 const twilio = require("twilio");
+const VoiceResponse = require("twilio/lib/twiml/VoiceResponse");
 
 class Twilio {
   phoneNumber = process.env.PHONE_NUMBER;
@@ -36,6 +37,19 @@ class Twilio {
       });
     console.log(data);
     return data;
+  }
+
+  voiceResponse(message) {
+    const twiml = new VoiceResponse();
+    twiml.say(
+      {
+        voice: "Polly.Aditi",
+        loop: 2,
+      },
+      message
+    );
+
+    return twiml;
   }
 }
 
