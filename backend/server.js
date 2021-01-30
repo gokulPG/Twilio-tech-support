@@ -97,6 +97,13 @@ app.post("/enqueue", (req, res) => {
   res.send(response.toString());
 });
 
+app.post('/connect-call', (req,res) => {
+  console.log('connecting call')
+  const response = twilio.redirectCall('gokul')
+  res.type("text/xml");
+  res.send(response.toString());
+})
+
 server.listen(PORT, () => {
   console.log(`Listening to PORT: ${PORT}`);
 });
