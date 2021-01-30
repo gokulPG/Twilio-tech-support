@@ -47,7 +47,7 @@ class Twilio {
       },
       message
     );
-    twiml.redirect("https://goku-callcenter.loca.lt/enqueue");
+    twiml.redirect("https://gokul-callcenter.loca.lt/enqueue");
     return twiml;
   }
 

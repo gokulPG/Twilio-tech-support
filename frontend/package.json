@@ -14,7 +14,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "socket.io-client": "^3.1.0",
-    "twilio-client": "^1.13.1",
+    "twilio-client": "^1.14.0",
     "use-immer": "^0.4.2",
     "web-vitals": "^0.2.4"
   },

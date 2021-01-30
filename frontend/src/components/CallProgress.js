@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Step } from "semantic-ui-react";
 
 function CallProgress({ call }) {
+  console.log(call, "call-details")
   return (
     <Container>
       <Step.Group fluid>

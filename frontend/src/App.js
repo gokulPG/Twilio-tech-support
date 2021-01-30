@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import { useImmer } from "use-immer";
 import axios from "./utils/Axios";
 import socket from "./utils/SocketIo";
 import CallCenter from "./components/CallCenter";
 import useTokenFromLocalStorage from "./hooks/useTokenFromLocalStorage";
+import * as Twilio from 'twilio-client';
 
 function App() {
   const [calls, setCalls] = useImmer({
@@ -18,6 +19,7 @@ function App() {
     verificationSent: false,
   });
 
+  const [twilioToken, setTwilioToken] = useState();
   const [storedToken, setStoredToken, isValidToken] = useTokenFromLocalStorage(null);
 
   useEffect(() => {
@@ -27,6 +29,9 @@ function App() {
     socket.removeToken()
   }, [isValidToken, storedToken])
 
+  useEffect(() => {
+     console.log('Valid Token')
+  }, [twilioToken])
 
   useEffect(() => {
     socket.client.on('connect', () => {
@@ -35,6 +40,10 @@ function App() {
     socket.client.on("disconnect", () => {
       console.log("Socket disconnected");
     });
+
+    socket.client.on('twilioToken', (data) => {
+      setTwilioToken(data.token)
+    })
     socket.client.on("call-new", ({ data: { CallSid, CallStatus } }) => {
       setCalls((draft) => {
         draft.calls.push({ CallSid, CallStatus });
@@ -72,6 +81,17 @@ function App() {
     });
     console.log("verification response", response.data.token);
     setStoredToken(response.data.token);
+  }
+
+  function connectTwilioVoiceClient(twilioToken) {
+    const device = new Twilio.Device(twilioToken, {debug: true})
+    device.on('error', (error) => {
+      console.log(error)
+    })
+    device.on('incoming', (connection) => {
+      console.log('Incoming from twilio')
+      connection.accept()
+    })
   }
 
   console.log(isValidToken, 'isValidToken')
