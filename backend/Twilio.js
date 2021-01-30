@@ -47,7 +47,7 @@ class Twilio {
       },
       message
     );
-    twiml.redirect("https://gokul-callcenter.loca.lt/enqueue");
+    twiml.redirect("https://goku-callcenter.loca.lt/enqueue");
     return twiml;
   }
 
@@ -55,6 +55,27 @@ class Twilio {
     const twim = new VoiceResponse();
     twim.enqueue(queueName);
     return twim;
+  }
+
+  getAccessTokenForVoice(identity) {
+    console.log( `Access token for ${identity}`)
+    const AccessToken = twilio.jwt.AccessToken;
+    const VoiceGrant = AccessToken.VoiceGrant;
+    const voiceGrant = new VoiceGrant({
+      outgoingApplicationSid: process.env.OUTGOING_APP_SID,
+      incomingAllow: true
+    })
+
+    const token = new AccessToken(
+      this.accountSid,
+      this.tokenSid, 
+      this.tokenSecret,
+      {identity}
+    )
+
+    token.addGrant(voiceGrant)
+    console.log('Access granted with JWT', token.toJwt());
+    return token.toJwt()
   }
 }
 
