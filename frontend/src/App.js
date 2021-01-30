@@ -30,7 +30,9 @@ function App() {
   }, [isValidToken, storedToken])
 
   useEffect(() => {
-     console.log('Valid Token')
+     if(twilioToken) {
+       connectTwilioVoiceClient(twilioToken);
+     }
   }, [twilioToken])
 
   useEffect(() => {
