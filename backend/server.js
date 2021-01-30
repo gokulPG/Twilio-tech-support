@@ -7,6 +7,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const jwt = require("./utils/Jwt");
 const cors = require("cors");
+const { getAccessTokenForVoice } = require("./Twilio");
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +28,7 @@ io.use((socket, next) => {
 
 io.on("connection", (socket) => {
   console.log("Socket Connected", socket.id);
+  socket.emit('twilio-token', {token: getAccessTokenForVoice('gokul')})
   socket.on("disconnect", () => {
     console.log("Socket disconnected", socket.id);
   });

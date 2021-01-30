@@ -41,7 +41,7 @@ function App() {
       console.log("Socket disconnected");
     });
 
-    socket.client.on('twilioToken', (data) => {
+    socket.client.on('twilio-token', (data) => {
       setTwilioToken(data.token)
     })
     socket.client.on("call-new", ({ data: { CallSid, CallStatus } }) => {

@@ -8,6 +8,7 @@ class Twilio {
   tokenSecret = process.env.TOKEN_SECRET;
   accountSid = process.env.ACCOUNT_SID;
   verify = process.env.VERIFY;
+  outgoingApplicationSid = process.env.OUTGOING_APP_SID;
   client;
 
   constructor() {
@@ -57,12 +58,13 @@ class Twilio {
     return twim;
   }
 
-  getAccessTokenForVoice(identity) {
+  getAccessTokenForVoice = (identity) => {
     console.log( `Access token for ${identity}`)
     const AccessToken = twilio.jwt.AccessToken;
     const VoiceGrant = AccessToken.VoiceGrant;
+    const outgoingAppSid = this.outgoingApplicationSid;
     const voiceGrant = new VoiceGrant({
-      outgoingApplicationSid: process.env.OUTGOING_APP_SID,
+      outgoingApplicationSid: outgoingAppSid,
       incomingAllow: true
     })
 
