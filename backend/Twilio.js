@@ -58,6 +58,20 @@ class Twilio {
     return twim;
   }
 
+  answerCall(sid) {
+    console.log('this will redirect the call with this SID to this url address')
+     this.client.calls(sid).update({
+       url: 'https://goku-callcenter.loca.lt/connect-call',
+       method: 'POST',
+       function (err, call) {
+         console.log('answerCall', call);
+         if(err) {
+           console.log('answerCall', err)
+         }
+       }
+     })
+  }
+
   getAccessTokenForVoice = (identity) => {
     console.log( `Access token for ${identity}`)
     const AccessToken = twilio.jwt.AccessToken;
