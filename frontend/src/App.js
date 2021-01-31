@@ -5,7 +5,7 @@ import axios from "./utils/Axios";
 import socket from "./utils/SocketIo";
 import CallCenter from "./components/CallCenter";
 import useTokenFromLocalStorage from "./hooks/useTokenFromLocalStorage";
-import * as Twilio from 'twilio-client';
+import * as Twilio from "twilio-client";
 
 function App() {
   const [calls, setCalls] = useImmer({
@@ -20,35 +20,40 @@ function App() {
   });
 
   const [twilioToken, setTwilioToken] = useState();
-  const [storedToken, setStoredToken, isValidToken] = useTokenFromLocalStorage(null);
+  const [storedToken, setStoredToken, isValidToken] = useTokenFromLocalStorage(
+    null
+  );
 
   useEffect(() => {
-    if(isValidToken) {
-      return socket.addToken(storedToken)
+    if (isValidToken) {
+      return socket.addToken(storedToken);
     }
-    socket.removeToken()
-  }, [isValidToken, storedToken])
+    socket.removeToken();
+  }, [isValidToken, storedToken]);
 
   useEffect(() => {
-     if(twilioToken) {
-       connectTwilioVoiceClient(twilioToken);
-     }
-  }, [twilioToken])
+    if (twilioToken) {
+      connectTwilioVoiceClient(twilioToken);
+    }
+  }, [twilioToken]);
 
   useEffect(() => {
-    socket.client.on('connect', () => {
-      console.log('socket connection is established from FE')
-    })
+    socket.client.on("connect", () => {
+      console.log("socket connection is established from FE");
+    });
     socket.client.on("disconnect", () => {
       console.log("Socket disconnected");
     });
 
-    socket.client.on('twilio-token', (data) => {
-      setTwilioToken(data.token)
-    })
+    socket.client.on("twilio-token", (data) => {
+      setTwilioToken(data.token);
+    });
     socket.client.on("call-new", ({ data: { CallSid, CallStatus } }) => {
       setCalls((draft) => {
-        draft.calls.push({ CallSid, CallStatus });
+        const index = draft.calls.findIndex((call) => call.CallSid === CallSid);
+        if (index === -1) {
+          draft.calls.push({ CallSid, CallStatus });
+        }
       });
     });
     socket.client.on("enqueue", ({ data: { CallSid } }) => {
@@ -56,6 +61,9 @@ function App() {
         const index = draft.calls.findIndex(
           ({ CallSid }) => CallSid === CallSid
         );
+        if(index === -1) {
+          return;
+        }
         draft.calls[index].CallStatus = "enqueue";
       });
     });
@@ -86,17 +94,17 @@ function App() {
   }
 
   function connectTwilioVoiceClient(twilioToken) {
-    const device = new Twilio.Device(twilioToken, {debug: true})
-    device.on('error', (error) => {
-      console.log(error)
-    })
-    device.on('incoming', (connection) => {
-      console.log('Incoming from twilio')
-      connection.accept()
-    })
+    const device = new Twilio.Device(twilioToken, { debug: true });
+    device.on("error", (error) => {
+      console.log(error);
+    });
+    device.on("incoming", (connection) => {
+      console.log("Incoming from twilio");
+      connection.accept();
+    });
   }
 
-  console.log(isValidToken, 'isValidToken')
+  console.log(isValidToken, "isValidToken");
   return (
     <div>
       {isValidToken ? (
