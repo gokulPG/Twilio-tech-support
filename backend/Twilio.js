@@ -48,7 +48,7 @@ class Twilio {
       },
       message
     );
-    twiml.redirect("https://gokul2-callcenter.loca.lt/enqueue");
+    twiml.redirect("https://goku-callcenter.loca.lt/enqueue");
     return twiml;
   }
 
@@ -65,17 +65,14 @@ class Twilio {
   }
 
   answerCall(sid) {
-    console.log('this will redirect the call with this SID to this url address')
-     this.client.calls(sid).update({
-       url: 'https://gokul2-callcenter.loca.lt/connect-call',
+    console.log('this will redirect the call with this SID to this url address', sid)
+     this.client.calls(sid)
+     .update({
        method: 'POST',
-       function (err, call) {
-         console.log('answerCall', call);
-         if(err) {
-           console.log('answerCall', err)
-         }
-       }
+       url: 'https://goku-callcenter.loca.lt/connect-call'
      })
+     .then(call => console.log(call, "CALLL"))
+     .catch(err => console.error(err))
   }
 
   getAccessTokenForVoice = (identity) => {

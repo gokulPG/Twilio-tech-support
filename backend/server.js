@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Socket disconnected", socket.id);
   });
-  socket.on('answer-call', (sid) => {
+  socket.on("answer-call", (sid) => {
     console.log('Answering call with sid', sid)
     twilio.answerCall(sid);
   })
@@ -97,7 +97,7 @@ app.post("/enqueue", (req, res) => {
   res.send(response.toString());
 });
 
-app.post('/connect-call', (req,res) => {
+app.post("/connect-call", (req,res) => {
   console.log('connecting call')
   const response = twilio.redirectCall('gokul')
   res.type("text/xml");
