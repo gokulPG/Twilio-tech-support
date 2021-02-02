@@ -48,7 +48,7 @@ class Twilio {
       },
       message
     );
-    twiml.redirect("https://goku-callcenter.loca.lt/enqueue");
+    twiml.redirect("https://gokul5-callcenter.loca.lt/enqueue");
     return twiml;
   }
 
@@ -64,12 +64,12 @@ class Twilio {
     return twiml;
   }
 
-  answerCall(sid) {
+  answerCall({sid}) {
     console.log('this will redirect the call with this SID to this url address', sid)
      this.client.calls(sid)
      .update({
        method: 'POST',
-       url: 'https://goku-callcenter.loca.lt/connect-call'
+       url: 'https://gokul5-callcenter.loca.lt/connect-call'
      })
      .then(call => console.log(call, "CALLL"))
      .catch(err => console.error(err))
