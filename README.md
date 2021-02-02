@@ -2,7 +2,8 @@
 
 Twilio, a cloud communication platform as a service (cPaaS) enables user to develop SMS,Voice and Video solutions.
 
-Frontend: React, Immet, Semantic UI, SocketIO for realtime communication
+Frontend: React, Immet, Semantic UI, SocketIO for realtime communication.
+
 Backend: NodeJS, Express for the rest API and SocketIO  
 
 Using the Twilio services and with help of sockets, 
