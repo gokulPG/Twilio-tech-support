@@ -9,7 +9,7 @@ Backend: NodeJS, Express for the rest API and SocketIO
 
 By leveraging Twilio voice and sms services, 
 Call center application is implemented where call info will be added in real-time on the dashbaord, showing the status of the call at each stage with the customer.
-Multiple calls from customers could be made, these calls will be added on the dashboard and then call center worker could decide on the sequence in which calls is answered.
+Multiple calls from customers could be made, these calls will be added on the dashboard and then worker could decide on the sequence in which calls are going to be answered.
 (Generated a phone number with Twilio trial account. Used as the customer care number)
 
 -> When customer places a call, customer will be greeted with a custom welcome message(integrated with programmable voice service by Twilio), and will be added to a queue.
